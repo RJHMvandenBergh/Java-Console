@@ -93,11 +93,11 @@ public class AWTConsole extends WindowAdapter implements WindowListener, ActionL
 		// testing part
 		// you may omit this part for your application
 		// 
-		System.out.println("Hello World 2");
-		System.out.println("All fonts available to Graphic2D:\n");
-		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-		String[] fontNames=ge.getAvailableFontFamilyNames();
-		for(int n=0;n<fontNames.length;n++)  System.out.println(fontNames[n]);		
+		System.out.println("AWTConsole: System.err and System.out should appear here");
+		//System.out.println("All fonts available to Graphic2D:\n");
+		//GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		//String[] fontNames=ge.getAvailableFontFamilyNames();
+		//for(int n=0;n<fontNames.length;n++)  System.out.println(fontNames[n]);		
 		// Testing part: simple an error thrown anywhere in this JVM will be printed on the Console
 		// We do it with a seperate Thread becasue we don't wan't to break a Thread used by the Console.
 		System.out.println("\nLets throw an error on this console");	
