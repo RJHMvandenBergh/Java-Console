@@ -106,6 +106,7 @@ public class AWTConsole extends WindowAdapter implements WindowListener, ActionL
 		errorThrower.start();					
 	}
 	
+        @Override
 	public synchronized void windowClosed(WindowEvent evt)
 	{
 		quit=true;
@@ -115,17 +116,20 @@ public class AWTConsole extends WindowAdapter implements WindowListener, ActionL
 		System.exit(0);
 	}		
 		
+        @Override
 	public synchronized void windowClosing(WindowEvent evt)
 	{
 		frame.setVisible(false); // default behaviour of JFrame	
 		frame.dispose();
 	}
 	
+        @Override
 	public synchronized void actionPerformed(ActionEvent evt)
 	{
 		textArea.setText("");
 	}
 
+        @Override
 	public synchronized void run()
 	{
 		try
@@ -182,6 +186,6 @@ public class AWTConsole extends WindowAdapter implements WindowListener, ActionL
 		
 	public static void main(String[] arg)
 	{
-		new AWTConsole(); // create console with not reference	
+		new AWTConsole(); // create console with no reference	
 	}			
 }
