@@ -7,3 +7,4 @@ So a java console on the browser wasn't required anymore
 
 AWTConsole.java is the old AWT verison
 Console.java is a Swing version
+https://www.comweb.nl/java/Console/Console.html
