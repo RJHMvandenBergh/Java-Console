@@ -6,5 +6,7 @@ Created originaly for Java applets running in a browser.
 So a java console on the browser wasn't required anymore
 
 AWTConsole.java is the old AWT verison
+To use an example is at the AWTConsoleDemo.java
+
 Console.java is a Swing version
 https://www.comweb.nl/java/Console/Console.html
