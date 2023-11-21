@@ -92,7 +92,7 @@ public class AWTConsole extends WindowAdapter implements WindowListener, ActionL
 		// you may omit this part for your application
 		// 
                 textArea.setText("AWTConsole: System.err and System.out should appear here\nTo use in app\nAWTConsole awtConsole= new AWTConsole();\nawtConsole.init();\n\n");
-		System.out.println("AWTConsole: System.err and System.out should appear here");
+		//System.out.println("AWTConsole: System.err and System.out should appear here");
 		//System.out.println("All fonts available to Graphic2D:\n");
 		//GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		//String[] fontNames=ge.getAvailableFontFamilyNames();
@@ -195,10 +195,10 @@ public class AWTConsole extends WindowAdapter implements WindowListener, ActionL
 		return input;
 	}	
 		
-	public static void main(String[] arg)
-	{
-		new AWTConsole(); // create console with no reference	
-	}			
+	//public static void main(String[] arg)
+	//{
+	//	new AWTConsole(); // create console with no reference	
+	//}			
 }
 
 /* note: the threads started in the constructor should be takan out 
