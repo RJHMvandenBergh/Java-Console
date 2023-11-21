@@ -15,9 +15,10 @@ import java.awt.event.*;
 public class AWTConsole extends WindowAdapter implements WindowListener, ActionListener, Runnable
 {
 	private Frame frame;
+        private Button button;
 	private TextArea textArea;
-	private Thread reader;
-	private Thread reader2;
+	private final Thread reader;
+	private final Thread reader2;
 	private boolean quit;
 					
 	private final PipedInputStream pin=new PipedInputStream(); 
@@ -37,7 +38,7 @@ public class AWTConsole extends WindowAdapter implements WindowListener, ActionL
 		
 		textArea=new TextArea();
 		textArea.setEditable(false);
-		Button button=new Button("clear");
+		button=new Button("clear");
 		
 		Panel panel=new Panel();
 		panel.setLayout(new BorderLayout());
@@ -47,8 +48,9 @@ public class AWTConsole extends WindowAdapter implements WindowListener, ActionL
 		
 		frame.setVisible(true);		
 		
-		frame.addWindowListener(this);		
-		button.addActionListener(this);
+                // moved to init() method		
+                // frame.addWindowListener(this);		
+		// button.addActionListener(this);
 		
 		try
 		{
@@ -69,14 +71,10 @@ public class AWTConsole extends WindowAdapter implements WindowListener, ActionL
 			PipedOutputStream pout2=new PipedOutputStream(this.pin2);
 			System.setErr(new PrintStream(pout2,true));
 		} 
-		catch (java.io.IOException io)
+		catch (java.io.IOException | SecurityException io)
 		{
 			textArea.append("Couldn't redirect STDERR to this console\n"+io.getMessage());
 		}
-		catch (SecurityException se)
-		{
-			textArea.append("Couldn't redirect STDERR to this console\n"+se.getMessage());
-	    } 		
 			
 		quit=false; // signals the Threads that they should exit
 				
@@ -84,15 +82,16 @@ public class AWTConsole extends WindowAdapter implements WindowListener, ActionL
 		//
 		reader=new Thread(this);
 		reader.setDaemon(true);	
-		reader.start();	
+		//reader.start();	
 		//
 		reader2=new Thread(this);	
 		reader2.setDaemon(true);	
-		reader2.start();
+		//reader2.start();
 				
 		// testing part
 		// you may omit this part for your application
 		// 
+                textArea.setText("AWTConsole: System.err and System.out should appear here\nTo use in app\nAWTConsole awtConsole= new AWTConsole();\nawtConsole.init();\n\n");
 		System.out.println("AWTConsole: System.err and System.out should appear here");
 		//System.out.println("All fonts available to Graphic2D:\n");
 		//GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -103,9 +102,21 @@ public class AWTConsole extends WindowAdapter implements WindowListener, ActionL
 		System.out.println("\nLets throw an error on this console");	
 		errorThrower=new Thread(this);
 		errorThrower.setDaemon(true);
-		errorThrower.start();					
+		//errorThrower.start();					
 	}
-	
+
+        public void init()
+        {
+                // adding listeners
+            	frame.addWindowListener(this);		
+		button.addActionListener(this);
+            // starting the threads
+            reader.start();
+            reader2.start();	
+            errorThrower.start();
+            
+        }
+        
         @Override
 	public synchronized void windowClosed(WindowEvent evt)
 	{
@@ -189,3 +200,7 @@ public class AWTConsole extends WindowAdapter implements WindowListener, ActionL
 		new AWTConsole(); // create console with no reference	
 	}			
 }
+
+/* note: the threads started in the constructor should be takan out 
+   For starting the threads a seperate mothode should be added.
+*/
