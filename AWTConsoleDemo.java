@@ -13,10 +13,13 @@ public class AWTConsoleDemo {
     {
         AWTConsole awtConsole=  new AWTConsole();
         awtConsole.init();
+        awtConsole.setVisible(true);
         // Note need to refactor the AWTConsole class
         System.out.println("Sending Hello to the AWTConsole on System.out");
         System.err.println("Simply printing this on the System.err");
         /* some problems with arrival time/order on the AWTConsole*/
+     
+        throw new NullPointerException("Application test: throwing an NullPointerException It should arrive at the console");
     }
     
 }
