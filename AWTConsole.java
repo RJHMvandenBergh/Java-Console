@@ -1,9 +1,8 @@
-//
+
 // A simple Java Console for your application (Swing version)
 // Requires Java 1.1.5 or higher
 //
-// Disclaimer the use of this source is at your own risk. 
-//
+// Disclaimer the use of this source is at your own risk.
 // Permision to use and distribute into your own applications
 //
 // RJHM van den Bergh , rvdb@comweb.nl or comwebnl@proton.me
@@ -31,8 +30,8 @@ public class AWTConsole extends WindowAdapter implements WindowListener, ActionL
 		// create all components and add them
 		frame=new Frame("Java Console");
 		Dimension screenSize=Toolkit.getDefaultToolkit().getScreenSize();
-		Dimension frameSize=new Dimension((int)(screenSize.width/2),(int)(screenSize.height/2));
-		int x=(int)(frameSize.width/2);
+		Dimension frameSize=new Dimension((int)(2*screenSize.width/3),(int)(screenSize.height/2));
+		int x=(int)(frameSize.width/4);
 		int y=(int)(frameSize.height/2);
 		frame.setBounds(x,y,frameSize.width,frameSize.height);
 		
@@ -44,13 +43,7 @@ public class AWTConsole extends WindowAdapter implements WindowListener, ActionL
 		panel.setLayout(new BorderLayout());
 		panel.add(textArea,BorderLayout.CENTER);
 		panel.add(button,BorderLayout.SOUTH);
-		frame.add(panel);
-		
-		frame.setVisible(true);		
-		
-                // moved to init() method		
-                // frame.addWindowListener(this);		
-		// button.addActionListener(this);
+		frame.add(panel);			
 		
 		try
 		{
@@ -79,26 +72,26 @@ public class AWTConsole extends WindowAdapter implements WindowListener, ActionL
 		quit=false; // signals the Threads that they should exit
 				
 		// Starting two seperate threads to read from the PipedInputStreams				
-		//
 		reader=new Thread(this);
 		reader.setDaemon(true);	
-		//reader.start();	
-		//
 		reader2=new Thread(this);	
 		reader2.setDaemon(true);	
-		//reader2.start();
-				
-		// testing part
-		// you may omit this part for your application
-		// 
-                textArea.setText("AWTConsole: System.err and System.out should appear here\nTo use in app\nAWTConsole awtConsole= new AWTConsole();\nawtConsole.init();\n\n");
-		//System.out.println("AWTConsole: System.err and System.out should appear here");
-		//System.out.println("All fonts available to Graphic2D:\n");
-		//GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-		//String[] fontNames=ge.getAvailableFontFamilyNames();
-		//for(int n=0;n<fontNames.length;n++)  System.out.println(fontNames[n]);		
-		// Testing part: simple an error thrown anywhere in this JVM will be printed on the Console
-		// We do it with a seperate Thread becasue we don't wan't to break a Thread used by the Console.
+                
+                
+                
+                
+                
+                String intro=new String("");
+                intro+=" **************************************************** \n";
+                intro+=" * AWTConsole                                       * \n";
+                intro+=" * System.err and System.out are printed here       * \n";
+                intro+=" * (Free to use at own risk)                        * \n";
+                intro+=" * https://github.com/RJHMvandenBergh/Java-Console  * \n";
+                intro+=" *                                                  * \n";
+                intro+=" * The main method of AWTConsole stands an example. * \n";
+                intro+=" ****************************************************\n\n";	
+                textArea.setText(intro);
+
 		System.out.println("\nLets throw an error on this console");	
 		errorThrower=new Thread(this);
 		errorThrower.setDaemon(true);
@@ -112,9 +105,17 @@ public class AWTConsole extends WindowAdapter implements WindowListener, ActionL
 		button.addActionListener(this);
             // starting the threads
             reader.start();
-            reader2.start();	
-            errorThrower.start();
-            
+            reader2.start();	           
+        }
+        public void setVisible(boolean visible)
+        {
+            frame.setVisible(visible);
+            if (visible)
+            { 
+                // Do this here otherwise textArea is null causing a nullpointerException when setting the font
+                int fontSize = textArea.getFont().getSize();
+                textArea.setFont(new Font(Font.MONOSPACED,Font.PLAIN,fontSize));
+            }
         }
         
         @Override
@@ -195,10 +196,14 @@ public class AWTConsole extends WindowAdapter implements WindowListener, ActionL
 		return input;
 	}	
 		
-	//public static void main(String[] arg)
-	//{
-	//	new AWTConsole(); // create console with no reference	
-	//}			
+	public static void main(String[] arg)
+	{
+		AWTConsole awtConsole = new AWTConsole(); // create console with no reference
+                awtConsole.init();
+                awtConsole.setVisible(true);
+                awtConsole.errorThrower.start();
+                
+	}			
 }
 
 /* note: the threads started in the constructor should be takan out 
